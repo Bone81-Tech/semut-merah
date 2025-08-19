@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEMUT</title>
+    
+    <!-- Link ke manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icon untuk PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon.png">
+    
+    <!-- Link ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!--
+        Kanvas untuk efek latar belakang visual
+    -->
+    <canvas id="foodCanvas"></canvas>
+
+    <div class="content">
+        <!-- Bagian header website -->
+        <header>
+            <a href="index.html" class="logo-container">
+                <img src="images/logo-semut/logo-semut.webp" alt="Logo SEMUT" class="logo">
+            </a>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="auth-btn">Login</button>
+            </div>
+            <div class="cart-icon-container" id="cartIcon">
+                                <svg class="cart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="16.5" cy="18.5" r="1.5"/>
+                    <circle cx="9.5" cy="18.5" r="1.5"/>
+                    <path d="M18,16H8.23a1,1,0,0,1-1-.84L4.45,4.84A1,1,0,0,0,3.46,4H2"/>
+                    <path d="M5.21,6H18.32a1.33,1.33,0,0,1,1.24,1.79l-2,7A1.34,1.34,0,0,1,16.36,16H8.77"/>
+                </svg>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </header>
+
+        <!-- Overlay Keranjang Belanja -->
+        <div class="cart-overlay" id="cartOverlay">
+            <div class="cart-modal">
+                <span class="close-btn" id="closeCartBtn">&times;</span>
+                <h3>Keranjang Belanja</h3>
+                <div class="cart-items-container" id="cartItemsContainer">
+                    <!-- Item keranjang akan dimasukkan di sini oleh JS -->
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Selesaikan Pesanan</button>
+            </div>
+        </div>
+
+        <!-- Overlay Profil Pengguna -->
+        <div class="profile-overlay" id="profileOverlay">
+            <div class="profile-modal">
+                <span class="close-btn" id="closeProfileBtn">&times;</span>
+                <h3>Profil Pengguna</h3>
+                <div class="profile-content">
+                    <div class="profile-details">
+                        <p><strong>Nama:</strong> Pengguna Demo</p>
+                        <p><strong>Email:</strong> demo@semut.com</p>
+                    </div>
+                    <hr>
+                    <h4>Daftar Favorit</h4>
+                    <div class="favorites-container" id="favoritesContainer">
+                        <!-- Item favorit akan dimasukkan di sini oleh JS -->
+                    </div>
+                    <hr>
+                    <h4>Riwayat Pesanan</h4>
+                    <div class="order-history-container" id="orderHistoryContainer">
+                        <!-- Item riwayat pesanan akan dimasukkan di sini oleh JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay Pelacakan Pesanan -->
+        <div class="tracking-overlay" id="trackingOverlay">
+            <div class="tracking-modal">
+                <span class="close-btn" id="closeTrackingBtn">&times;</span>
+                <h3>Detail Pelacakan Pesanan</h3>
+                <div class="tracking-content" id="trackingContent">
+                    <!-- Detail pelacakan akan dimasukkan di sini oleh JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay Checkout -->
+        <div class="checkout-form-overlay" id="checkoutFormOverlay">
+            <div class="checkout-form-modal">
+                <span class="close-btn" id="closeCheckoutFormBtn">&times;</span>
+                <h3>Formulir Pemesanan</h3>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="customerName">Nama Lengkap</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Alamat Pengiriman</label>
+                        <textarea id="customerAddress" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Nomor Telepon (WhatsApp)</label>
+                        <input type="tel" id="customerPhone" required>
+                    </div>
+                    <button type="submit" class="confirm-order-btn">Konfirmasi Pesanan</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Overlay Login -->
+        <div class="login-overlay" id="loginOverlay">
+            <div class="login-modal">
+                <span class="close-btn" id="closeLoginBtn">&times;</span>
+                <h3>Login Akun</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="confirm-order-btn">Login</button>
+                    <p class="auth-switch">Belum punya akun? <a href="#" id="registerLink">Daftar di sini</a></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Overlay Registrasi -->
+        <div class="register-overlay" id="registerOverlay">
+            <div class="register-modal">
+                <span class="close-btn" id="closeRegisterBtn">&times;</span>
+                <h3>Daftar Akun Baru</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Nama Lengkap</label>
+                        <input type="text" id="registerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Konfirmasi Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="confirm-order-btn">Daftar</button>
+                    <p class="auth-switch">Sudah punya akun? <a href="#" id="loginLink">Login di sini</a></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bagian hero dengan gambar utama -->
+        <section class="hero">
+            <img src="https://placehold.co/1200x400/FFD700/000000?text=SEMUT" alt="Berbagai macam makanan SEMUT">
+        </section>
+
+        <!-- Bagian pencarian -->
+        <section class="pencarian">
+            <input type="search" id="searchInput" placeholder="Cari makanan favoritmu...">
+            <button id="searchButton">Cari</button>
+        </section>
+
+        <!-- Bagian kategori produk -->
+        <section class="kategori">
+            <h2>Jelajahi Kategori</h2>
+            <div class="kategori-list">
+                <a href="#">Makanan Berat</a>
+                <a href="#">Cemilan</a>
+                <a href="#">Minuman</a>
+                <a href="#">Kue Basah</a>
+            </div>
+        </section>
+
+        <!-- Bagian produk unggulan -->
+        <section class="unggulan">
+            <h2>Produk Unggulan</h2>
+            <div class="produk-list" id="productList">
+                <!-- Kartu produk akan dimasukkan di sini oleh JS -->
+            </div>
+        </section>
+
+        <!-- Bagian promo spesial -->
+        <section class="promo">
+            <h2>Promo Spesial</h2>
+            <div class="promo-list">
+                <!-- Kartu promo akan dimasukkan di sini -->
+                <div class="promo-card">
+                    <img src="https://placehold.co/600x300/FF4500/FFFFFF?text=Diskon+20%25" alt="Promo 1">
+                    <h3>Diskon 20% Semua Minuman</h3>
+                    <p>Gunakan kode: MINUMSEGAR</p>
+                </div>
+                <div class="promo-card">
+                    <img src="https://placehold.co/600x300/FF4500/FFFFFF?text=Beli+1+Gratis+1" alt="Promo 2">
+                    <h3>Beli 1 Gratis 1 Lumpia</h3>
+                    <p>Berlaku setiap hari Jumat</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Bagian footer website -->
+    <footer>
+        <div class="footer-links">
+            <a href="#" id="profilLink">Profil Pengguna</a>
+            <a href="bantuan.html">Bantuan & FAQ</a>
+        </div>
+        <p>&copy; 2024 SEMUT</p>
+    </footer>
+
+    <!-- Link ke file JavaScript eksternal -->
+    <script src="script.js"></script>
+</body>
+</html>
