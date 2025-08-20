@@ -2,7 +2,7 @@
     // --- Registrasi Service Worker ---
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js').then(reg => console.log('SW terdaftar')).catch(err => console.log('SW Gagal', err));
+            navigator.serviceWorker.register('./service-worker.js').then(reg => console.log('SW terdaftar')).catch(err => console.log('SW Gagal', err));
         });
     }
 
@@ -127,7 +127,7 @@ async function fetchProductsFromAPI() {
                 id: parseInt(item.id_produk.replace('ujicoba_', '')), // Assuming id_produk is like ujicoba_001
                 name: item.nama_produk,
                 price: item.harga,
-                imageUrl: item.url_gambar,
+                imageUrl: 'https://drive.google.com/uc?export=view&id=' + item.url_gambar,
                 rating: parseFloat(item.rating) || 0, // Convert to number, default to 0
                 reviewCount: parseInt(item.jumlah_ulasan) || 0 // Convert to number, default to 0
             }));
