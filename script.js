@@ -123,11 +123,11 @@ async function fetchProductsFromAPI() {
         const response = await fetch(API_URL);
         const result = await response.json();
         if (result.success && result.data) {
+            console.log('Raw item.url_gambar from API:', result.data.map(item => item.url_gambar));
             return result.data.map(item => ({
                 id: parseInt(item.id_produk.replace('ujicoba_', '')), // Assuming id_produk is like ujicoba_001
                 name: item.nama_produk,
                 price: item.harga,
-                console.log('Raw item.url_gambar from API:', item.url_gambar);
                 imageUrl: 'https://drive.google.com/uc?export=view&id=' + item.url_gambar,
                 rating: parseFloat(item.rating) || 0, // Convert to number, default to 0
                 reviewCount: parseInt(item.jumlah_ulasan) || 0 // Convert to number, default to 0
