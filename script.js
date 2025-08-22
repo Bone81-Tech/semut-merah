@@ -23,7 +23,7 @@
 
     let currentUser = null;
 
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzwKd0PEFMJwStBruDBXVyo7w-r_-fEc7ULWZpz2evQkg_0jmEXg_sdz9nZY9inKMEqFw/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbywckU7WUg84x77b3WMyFSspigNsBRbzjNTH9KrZQ9w1-5HI4uetHbH03571rd2J0ILxQ/exec';
     let products = []; // Change to let so it can be reassigned
 
     // Helper function to load data from localStorage
